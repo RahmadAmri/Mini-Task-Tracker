@@ -88,8 +88,9 @@
     color: transparent;
   }
   .app-shell:not(.dark) .top-bar h1 {
-    background: linear-gradient(95deg, #0f1821, #4b5a68 85%);
+    background: linear-gradient(95deg, #1a2530 0%, #405466 70%, #6d8394 95%);
     -webkit-background-clip: text;
+    color: transparent;
   }
   .chips {
     display: flex;
@@ -118,8 +119,12 @@
     transition: 0.3s border, 0.3s box-shadow, 0.3s background;
   }
   .app-shell:not(.dark) .filter-box {
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(40, 60, 80, 0.18);
+    background: #ffffff;
+    border: 1px solid #c9d6e2;
+  }
+  .app-shell:not(.dark) .filter-box input::placeholder {
+    color: #6a7c8a;
+    opacity: 0.9;
   }
   .filter-box i {
     position: absolute;
@@ -185,7 +190,8 @@
     position: relative;
   }
   .app-shell:not(.dark) .progress-bar {
-    background: #e3e9f0;
+    background: #d5dee7;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08);
   }
   .progress-bar .fill {
     position: absolute;
@@ -194,6 +200,9 @@
     background: linear-gradient(90deg, #2563eb, #3b82f6 60%, #60a5fa);
     box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.4) inset;
     transition: width 1s cubic-bezier(0.16, 0.8, 0.22, 1);
+  }
+  .app-shell:not(.dark) .progress-bar .fill {
+    background: linear-gradient(90deg, #2563eb, #3b82f6 55%, #7db3ff);
   }
 
   /* Card / table container */
@@ -238,6 +247,14 @@
   .app-shell:not(.dark) :host ::ng-deep .smart-table .p-datatable-tbody > tr {
     background: #ffffff;
   }
+  .app-shell:not(.dark)
+    :host
+    ::ng-deep
+    .smart-table
+    .p-datatable-tbody
+    > tr:nth-child(even) {
+    background: #f9fbfd;
+  }
   :host ::ng-deep .smart-table .p-datatable-tbody > tr:hover {
     background: rgba(59, 130, 246, 0.14);
   }
@@ -275,7 +292,7 @@
     );
   }
   .app-shell:not(.dark) .completed {
-    background: linear-gradient(90deg, #f1fff5, #ffffff);
+    background: linear-gradient(90deg, #e8f9ef, #ffffff);
   }
 
   .task-title {
@@ -348,6 +365,150 @@
       order: 3;
     }
   }
+
+  :host {
+    /* light tokens tuned for higher contrast */
+    --c-bg: #eef4fa;
+    --c-gradient-a: #ffffff;
+    --c-gradient-b: #f5f8fc;
+    --c-surface: #ffffff;
+    --c-surface-alt: #f2f6fa;
+    --c-border: #c9d6e2;
+    --c-border-soft: #d9e3ec;
+    --c-text: #1a2530;
+    --c-text-soft: #2f3e4b;
+    --c-text-faint: #5a6b79;
+    --c-accent: #2563eb;
+    --c-accent-hover: #1d4ed8;
+    --c-danger: #dc2626;
+    --c-success: #16a34a;
+    --c-warn: #d97706;
+    --c-input-bg: #ffffff;
+  }
+
+  /* keep existing dark mode block (unchanged) */
+  .app-shell.dark {
+    background: radial-gradient(circle at 80% 15%, #132d45 0%, transparent 55%),
+      radial-gradient(circle at 20% 85%, #0b253b 0%, transparent 60%),
+      linear-gradient(170deg, #07121c, #021017 75%);
+  }
+
+  /* LIGHT SHELL BACKGROUND BRIGHTER */
+  .app-shell:not(.dark) {
+    background: radial-gradient(circle at 82% 14%, #ffffff 0%, transparent 60%),
+      radial-gradient(circle at 18% 88%, #fbfdff 0%, transparent 62%),
+      linear-gradient(160deg, #e9f1f9, #f3f8fc 70%);
+  }
+
+  /* Headline gradient stronger for legibility */
+  .app-shell:not(.dark) .top-bar h1 {
+    background: linear-gradient(95deg, #1a2530 0%, #405466 70%, #6d8394 95%);
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+
+  /* Light glass surfaces crisper */
+  .app-shell:not(.dark) .glass {
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(210, 220, 230, 0.9);
+    box-shadow: 0 8px 22px -8px rgba(0, 35, 70, 0.18),
+      0 2px 6px -2px rgba(0, 35, 70, 0.08);
+  }
+
+  /* Filter box clearer */
+  .app-shell:not(.dark) .filter-box {
+    background: #ffffff;
+    border: 1px solid #c9d6e2;
+  }
+  .app-shell:not(.dark) .filter-box input::placeholder {
+    color: #6a7c8a;
+    opacity: 0.9;
+  }
+
+  /* Progress bar higher contrast */
+  .app-shell:not(.dark) .progress-bar {
+    background: #d5dee7;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08);
+  }
+  .app-shell:not(.dark) .progress-bar .fill {
+    background: linear-gradient(90deg, #2563eb, #3b82f6 55%, #7db3ff);
+  }
+
+  /* Table header & rows */
+  .app-shell:not(.dark)
+    :host
+    ::ng-deep
+    .smart-table
+    .p-datatable-thead
+    > tr
+    > th {
+    background: #eaf1f7;
+    color: #334555;
+    border-bottom: 1px solid #d3dde6;
+  }
+
+  .app-shell:not(.dark) :host ::ng-deep .smart-table .p-datatable-tbody > tr {
+    background: #ffffff;
+  }
+  .app-shell:not(.dark)
+    :host
+    ::ng-deep
+    .smart-table
+    .p-datatable-tbody
+    > tr:nth-child(even) {
+    background: #f9fbfd;
+  }
+  .app-shell:not(.dark)
+    :host
+    ::ng-deep
+    .smart-table
+    .p-datatable-tbody
+    > tr:hover {
+    background: #e6f1ff;
+  }
+  .app-shell:not(.dark)
+    :host
+    ::ng-deep
+    .smart-table
+    .p-datatable-tbody
+    > tr
+    > td {
+    color: #2f3e4b;
+  }
+
+  /* Completed row subtle green tint (light) */
+  .app-shell:not(.dark) .completed {
+    background: linear-gradient(90deg, #e8f9ef, #ffffff);
+  }
+
+  /* Buttons in light mode accent pop */
+  .app-shell:not(.dark) .p-button:not(.p-button-text) {
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.15),
+      0 1px 2px rgba(0, 0, 0, 0.08);
+  }
+  .app-shell:not(.dark) .p-button:not(.p-button-text):hover {
+    filter: brightness(1.04);
+  }
+
+  /* Dialog light surface */
+  .app-shell:not(.dark) .dialog-body {
+    background: linear-gradient(180deg, #ffffff, #f3f7fb);
+    border-top: 1px solid #dbe4ec;
+  }
+
+  /* Footer text */
+  .app-shell:not(.dark) .footer {
+    color: #5a6b79;
+  }
+
+  /* Optional: focus ring color on light bg a bit softer */
+  .app-shell:not(.dark) button:focus-visible,
+  .app-shell:not(.dark) input:focus-visible {
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.35);
+  }
+
+  /* Keep rest of existing styles below unchanged */
+  /* ...existing code continues... */
 </style>
 
 <section class="app-shell" [class.dark]="darkMode()">
@@ -370,7 +531,7 @@
           <input
             [ngModel]="filterTerm()"
             (ngModelChange)="filterTerm.set($event)"
-            placeholder="Filter tasks..."
+            placeholder="Search tasks..."
             autocomplete="off"
           />
           <button
@@ -395,14 +556,6 @@
           label="Add Task"
           icon="pi pi-plus"
           (click)="openAdd()"
-        ></button>
-        <button
-          pButton
-          icon="pi pi-refresh"
-          class="p-button-text p-button-rounded reload"
-          (click)="load()"
-          [disabled]="loading()"
-          pTooltip="Reload"
         ></button>
       </div>
     </header>
@@ -498,7 +651,6 @@
 
     <footer class="footer">
       <span *ngIf="loading()">Loading…</span>
-      <span *ngIf="!loading() && !error()">Ready</span>
       <span *ngIf="error()" class="err">{{ error() }}</span>
     </footer>
   </div>
