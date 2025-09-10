@@ -1,0 +1,547 @@
+<style>
+  /* --- existing design tokens (kept) --- */
+  :host {
+    --bright-blue: oklch(51.01% 0.274 263.83);
+    --electric-violet: oklch(53.18% 0.28 296.97);
+    --french-violet: oklch(47.66% 0.246 305.88);
+    --vivid-pink: oklch(69.02% 0.277 332.77);
+    --hot-red: oklch(61.42% 0.238 15.34);
+    --orange-red: oklch(63.32% 0.24 31.68);
+
+    --gray-900: oklch(19.37% 0.006 300.98);
+    --gray-700: oklch(36.98% 0.014 302.71);
+    --gray-400: oklch(70.9% 0.015 304.04);
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+      "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* RESET MARGINS NOW THAT WE CENTER VIA WRAPPER */
+  .top-bar,
+  .progress-wrapper,
+  .card,
+  .footer {
+    margin: 0;
+  }
+
+  /* Centering shell */
+  .app-shell {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: clamp(24px, 4vw, 48px) clamp(16px, 3vw, 48px) 72px;
+    background: radial-gradient(circle at 85% 12%, #0f2336 0%, transparent 55%),
+      radial-gradient(circle at 15% 88%, #123652 0%, transparent 60%),
+      linear-gradient(160deg, #0d2032, #05111c 72%);
+  }
+
+  .app-shell.dark {
+    background: radial-gradient(circle at 80% 15%, #132d45 0%, transparent 55%),
+      radial-gradient(circle at 20% 85%, #0b253b 0%, transparent 60%),
+      linear-gradient(170deg, #07121c, #021017 75%);
+  }
+
+  /* Center wrapper */
+  .app-container {
+    width: 100%;
+    max-width: 1120px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    position: relative;
+  }
+
+  /* Glass panels unify */
+  .glass {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 18px;
+    box-shadow: 0 10px 28px -10px rgba(0, 0, 0, 0.55),
+      0 2px 6px -2px rgba(0, 0, 0, 0.4);
+  }
+  .app-shell:not(.dark) .glass {
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 0 6px 18px -6px rgba(0, 0, 0, 0.12),
+      0 2px 6px -2px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Top bar */
+  .top-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 26px;
+    padding: 20px 28px;
+    align-items: flex-start;
+  }
+  .top-bar h1 {
+    margin: 0 0 10px;
+    font-size: clamp(28px, 4.6vw, 40px);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    background: linear-gradient(95deg, #fff, #9fb7ce 80%);
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+  .app-shell:not(.dark) .top-bar h1 {
+    background: linear-gradient(95deg, #0f1821, #4b5a68 85%);
+    -webkit-background-clip: text;
+  }
+  .chips {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .controls {
+    margin-left: auto;
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  /* Filter */
+  .filter-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 40px;
+    padding: 6px 14px 6px 42px;
+    min-width: 260px;
+    transition: 0.3s border, 0.3s box-shadow, 0.3s background;
+  }
+  .app-shell:not(.dark) .filter-box {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(40, 60, 80, 0.18);
+  }
+  .filter-box i {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 15px;
+    opacity: 0.55;
+    color: #d0d9e2;
+  }
+  .app-shell:not(.dark) .filter-box i {
+    color: #546270;
+  }
+  .filter-box.has-value i {
+    opacity: 0.95;
+    color: #3b82f6;
+  }
+  .filter-box input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    color: #f5f9fc;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+  .app-shell:not(.dark) .filter-box input {
+    color: #1f2d39;
+  }
+  .filter-box:focus-within {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.45);
+    border-color: rgba(59, 130, 246, 0.7);
+    background: rgba(59, 130, 246, 0.07);
+  }
+
+  .theme-toggle,
+  .reload {
+    width: 44px;
+    height: 44px;
+  }
+
+  /* Progress */
+  .progress-wrapper {
+    padding: 22px 28px 26px;
+  }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    letter-spacing: 0.4px;
+    margin-bottom: 10px;
+    color: #d1dbe4;
+  }
+  .app-shell:not(.dark) .progress-label {
+    color: #44525f;
+  }
+  .progress-bar {
+    height: 16px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+  }
+  .app-shell:not(.dark) .progress-bar {
+    background: #e3e9f0;
+  }
+  .progress-bar .fill {
+    position: absolute;
+    inset: 0;
+    width: 0;
+    background: linear-gradient(90deg, #2563eb, #3b82f6 60%, #60a5fa);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+    transition: width 1s cubic-bezier(0.16, 0.8, 0.22, 1);
+  }
+
+  /* Card / table container */
+  .card {
+    padding: 14px 18px 26px;
+  }
+
+  /* PrimeNG table adjustments */
+  :host ::ng-deep .smart-table .p-datatable-wrapper {
+    border-radius: 14px;
+    overflow: hidden;
+    background: transparent;
+  }
+  :host ::ng-deep .smart-table .p-datatable-table {
+    background: transparent;
+  }
+  :host ::ng-deep .smart-table .p-datatable-thead > tr > th {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(12px);
+    color: #d7e2ec;
+    border: none;
+    font-size: 11.5px;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    padding: 13px 16px;
+    font-weight: 600;
+  }
+  .app-shell:not(.dark)
+    :host
+    ::ng-deep
+    .smart-table
+    .p-datatable-thead
+    > tr
+    > th {
+    background: #f1f5f9;
+    color: #334155;
+  }
+  :host ::ng-deep .smart-table .p-datatable-tbody > tr {
+    background: rgba(255, 255, 255, 0.02);
+    transition: background 0.25s;
+  }
+  .app-shell:not(.dark) :host ::ng-deep .smart-table .p-datatable-tbody > tr {
+    background: #ffffff;
+  }
+  :host ::ng-deep .smart-table .p-datatable-tbody > tr:hover {
+    background: rgba(59, 130, 246, 0.14);
+  }
+  .app-shell:not(.dark)
+    :host
+    ::ng-deep
+    .smart-table
+    .p-datatable-tbody
+    > tr:hover {
+    background: #f0f7ff;
+  }
+  :host ::ng-deep .smart-table .p-datatable-tbody > tr > td {
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 12px 16px;
+    color: #c7d4df;
+    font-size: 14px;
+  }
+  .app-shell:not(.dark)
+    :host
+    ::ng-deep
+    .smart-table
+    .p-datatable-tbody
+    > tr
+    > td {
+    border-bottom: 1px solid #e3e9f0;
+    color: #364553;
+  }
+
+  .completed {
+    background: linear-gradient(
+      90deg,
+      rgba(34, 197, 94, 0.18),
+      rgba(34, 197, 94, 0.05)
+    );
+  }
+  .app-shell:not(.dark) .completed {
+    background: linear-gradient(90deg, #f1fff5, #ffffff);
+  }
+
+  .task-title {
+    font-weight: 500;
+  }
+  .cross {
+    text-decoration: line-through;
+    opacity: 0.55;
+  }
+
+  .status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .row-actions {
+    text-align: right;
+  }
+
+  .empty {
+    text-align: center;
+    padding: 70px 16px;
+    color: #94a6b5;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* Footer centered */
+  .footer {
+    text-align: center;
+    padding: 10px 8px 0;
+    font-size: 12px;
+    color: #6f8090;
+  }
+  .app-shell:not(.dark) .footer {
+    color: #5a6977;
+  }
+
+  /* Responsive tighten */
+  @media (max-width: 780px) {
+    .app-container {
+      gap: 22px;
+    }
+    .top-bar {
+      padding: 18px 20px;
+    }
+    .progress-wrapper {
+      padding: 18px 22px 22px;
+    }
+    .card {
+      padding: 12px 14px 22px;
+    }
+    .filter-box {
+      min-width: 200px;
+    }
+  }
+  @media (max-width: 560px) {
+    .controls {
+      width: 100%;
+      justify-content: space-between;
+    }
+    .filter-box {
+      flex: 1;
+      min-width: 140px;
+    }
+    .theme-toggle,
+    .reload {
+      order: 3;
+    }
+  }
+</style>
+
+<section class="app-shell" [class.dark]="darkMode()">
+  <div class="app-container">
+    <header class="top-bar glass">
+      <div class="left">
+        <h1>Mini Task Tracker</h1>
+        <div class="chips">
+          <p-tag [value]="'Total ' + totalCount()" severity="info"></p-tag>
+          <p-tag
+            [value]="'Done ' + completedCount()"
+            [severity]="completedCount() ? 'success' : 'warning'"
+          ></p-tag>
+          <p-tag *ngIf="error()" [value]="error()!" severity="danger"></p-tag>
+        </div>
+      </div>
+      <div class="controls">
+        <div class="filter-box" [class.has-value]="filterTerm()">
+          <i class="pi pi-search"></i>
+          <input
+            [ngModel]="filterTerm()"
+            (ngModelChange)="filterTerm.set($event)"
+            placeholder="Filter tasks..."
+            autocomplete="off"
+          />
+          <button
+            *ngIf="filterTerm()"
+            pButton
+            icon="pi pi-times"
+            class="p-button-text p-button-rounded small"
+            (click)="clearFilter()"
+            pTooltip="Clear"
+          ></button>
+        </div>
+        <button
+          pButton
+          [icon]="darkMode() ? 'pi pi-sun' : 'pi pi-moon'"
+          class="p-button-rounded p-button-text theme-toggle"
+          (click)="toggleDark()"
+          [attr.aria-pressed]="darkMode()"
+          pTooltip="Toggle theme"
+        ></button>
+        <button
+          pButton
+          label="Add Task"
+          icon="pi pi-plus"
+          (click)="openAdd()"
+        ></button>
+        <button
+          pButton
+          icon="pi pi-refresh"
+          class="p-button-text p-button-rounded reload"
+          (click)="load()"
+          [disabled]="loading()"
+          pTooltip="Reload"
+        ></button>
+      </div>
+    </header>
+
+    <div class="progress-wrapper glass" *ngIf="totalCount()">
+      <div class="progress-label">
+        <span>Progress</span>
+        <span>{{ completionPct() }}%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="fill" [style.width.%]="completionPct()"></div>
+      </div>
+    </div>
+
+    <div class="card glass">
+      <div *ngIf="loading()" class="skeletons">
+        <p-skeleton
+          height="38px"
+          *ngFor="let x of [1, 2, 3, 4, 5]"
+        ></p-skeleton>
+      </div>
+      <p-table
+        *ngIf="!loading()"
+        [value]="sortedFiltered()"
+        dataKey="id"
+        styleClass="p-datatable-sm smart-table"
+        responsiveLayout="scroll"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th (click)="setSort('id')" class="sortable">
+              ID <i [class]="sortIcon('id')"></i>
+            </th>
+            <th (click)="setSort('title')" class="sortable">
+              Title <i [class]="sortIcon('title')"></i>
+            </th>
+            <th (click)="setSort('completed')" class="sortable">
+              Status <i [class]="sortIcon('completed')"></i>
+            </th>
+            <th class="actions-col">Actions</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-row>
+          <tr [class.completed]="row.completed">
+            <td class="id-cell">{{ row.id }}</td>
+            <td>
+              <span class="task-title" [class.cross]="row.completed">{{
+                row.title
+              }}</span>
+            </td>
+            <td>
+              <div class="status">
+                <p-tag
+                  [value]="row.completed ? 'Completed' : 'Pending'"
+                  [severity]="row.completed ? 'success' : 'warning'"
+                ></p-tag>
+                <p-checkbox
+                  [binary]="true"
+                  [ngModel]="row.completed"
+                  (onChange)="toggle(row)"
+                  inputId="chk-{{ row.id }}"
+                  pTooltip="Toggle status"
+                ></p-checkbox>
+              </div>
+            </td>
+            <td class="row-actions">
+              <button
+                pButton
+                icon="pi pi-trash"
+                class="p-button-rounded p-button-text p-button-danger"
+                (click)="remove(row)"
+                pTooltip="Delete task"
+              ></button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="4" class="empty">
+              <span class="pi pi-inbox icon"></span>
+              <p>No tasks found.</p>
+              <button
+                pButton
+                label="Add Task"
+                icon="pi pi-plus"
+                (click)="openAdd()"
+              ></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <footer class="footer">
+      <span *ngIf="loading()">Loading…</span>
+      <span *ngIf="!loading() && !error()">Ready</span>
+      <span *ngIf="error()" class="err">{{ error() }}</span>
+    </footer>
+  </div>
+</section>
+
+<p-dialog
+  header="Add Task"
+  [visible]="showAdd()"
+  (visibleChange)="showAdd.set($event)"
+  [modal]="true"
+  [breakpoints]="{ '640px': '95vw' }"
+  [style]="{ width: '440px' }"
+  (onHide)="newTitle = ''; creating = false"
+  contentStyleClass="dialog-body"
+>
+  <div class="dialog-content">
+    <label for="title" class="label">Title</label>
+    <input
+      id="title"
+      pInputText
+      [(ngModel)]="newTitle"
+      (keyup.enter)="create()"
+      maxlength="120"
+      placeholder="Describe the task..."
+      autocomplete="off"
+    />
+    <div class="inline-hint">{{ newTitle.length }}/120</div>
+    <div class="dialog-buttons">
+      <button
+        pButton
+        label="Cancel"
+        class="p-button-text"
+        (click)="showAdd.set(false)"
+        [disabled]="creating"
+      ></button>
+      <button
+        pButton
+        label="Create"
+        icon="pi pi-check"
+        (click)="create()"
+        [loading]="creating"
+        [disabled]="!newTitle.trim()"
+      ></button>
+    </div>
+  </div>
+</p-dialog>
