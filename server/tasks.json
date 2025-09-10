@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Learn Sequelize basics",
+    "completed": false,
+    "createdAt": "2025-03-02",
+    "updatedAt": "2025-03-02"
+  },
+  {
+    "title": "Design Task API endpoints",
+    "completed": true,
+    "createdAt": "2025-09-08",
+    "updatedAt": "2025-09-08"
+  },
+  {
+    "title": "Implement POST /api/tasks",
+    "completed": true,
+    "createdAt": "2025-09-07",
+    "updatedAt": "2025-09-07"
+  },
+  {
+    "title": "Write integration tests",
+    "completed": false,
+    "createdAt": "2025-05-06",
+    "updatedAt": "2025-05-06"
+  },
+  {
+    "title": "Add frontend consumption",
+    "completed": false,
+    "createdAt": "2025-02-03",
+    "updatedAt": "2025-02-03"
+  }
+]
