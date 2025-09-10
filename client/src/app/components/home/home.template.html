@@ -1,50 +1,126 @@
-<div class="container">
-  <h1>Tasks</h1>
+<div class="layout">
+  <header class="app-bar">
+    <h1 class="app-title">Mini Task Tracker</h1>
+    <div class="app-actions">
+      <button class="btn primary" ng-click="$ctrl.openAdd()">Add Task</button>
+      <button class="btn ghost" ng-click="$ctrl.toggleTheme()">
+        {{$ctrl.theme === 'light' ? 'Dark' : 'Light'}} Mode
+      </button>
+    </div>
+  </header>
 
-  <div class="toolbar">
-    <button ng-click="$ctrl.openAdd()">Add Task</button>
-    <span ng-if="$ctrl.loading">Loading...</span>
-    <span class="error" ng-if="$ctrl.error">{{$ctrl.error}}</span>
-  </div>
-
-  <table class="task-table">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Title</th>
-        <th>Completed</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr ng-repeat="t in $ctrl.tasks track by t.id">
-        <td>{{t.id}}</td>
-        <td ng-class="{'done': t.completed}">{{t.title}}</td>
-        <td>
-          <input
-            type="checkbox"
-            ng-checked="t.completed"
-            ng-click="$ctrl.toggle(t)"
-          />
-        </td>
-        <td>
-          <button ng-click="$ctrl.delete(t)">Delete</button>
-        </td>
-      </tr>
-      <tr ng-if="!$ctrl.loading && !$ctrl.tasks.length">
-        <td colspan="4">No tasks</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="modal" ng-if="$ctrl.showAdd">
-    <div class="modal-body">
-      <h3>New Task</h3>
-      <input type="text" ng-model="$ctrl.newTitle" placeholder="Title" />
-      <div class="actions">
-        <button ng-click="$ctrl.create()">Create</button>
-        <button ng-click="$ctrl.showAdd=false">Cancel</button>
+  <main class="card">
+    <div class="status-row">
+      <div
+        class="status-chip"
+        ng-class="{'ok': !$ctrl.loading && !$ctrl.error, 'warn': $ctrl.loading, 'err': $ctrl.error}"
+      >
+        <span ng-if="$ctrl.loading">Loading...</span>
+        <span ng-if="$ctrl.error">Error: {{$ctrl.error}}</span>
+        <span ng-if="!$ctrl.loading && !$ctrl.error">Ready</span>
       </div>
+      <div class="summary">
+        <span>Total: {{$ctrl.tasks.length}}</span>
+        <span
+          >Completed: {{ ($ctrl.tasks | filter:{completed:true}).length }}</span
+        >
+      </div>
+    </div>
+
+    <div
+      class="table-wrapper"
+      ng-class="{'is-empty': !$ctrl.tasks.length && !$ctrl.loading}"
+    >
+      <table class="task-table" ng-if="$ctrl.tasks.length">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th class="center">Done</th>
+            <th class="right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="t in $ctrl.tasks track by t.id">
+            <td>{{$index + 1}}</td>
+            <td>
+              <span class="task-title" ng-class="{'completed': t.completed}">
+                {{t.title}}
+              </span>
+            </td>
+            <td class="center">
+              <label class="checkbox">
+                <input
+                  type="checkbox"
+                  ng-checked="t.completed"
+                  ng-click="$ctrl.toggle(t)"
+                />
+                <span></span>
+              </label>
+            </td>
+            <td class="right">
+              <button class="btn danger sm" ng-click="$ctrl.delete(t)">
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="empty" ng-if="!$ctrl.loading && !$ctrl.tasks.length">
+        <p>No tasks yet. Create one.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer-bar">
+    <span>Mini Task Tracker</span>
+    <span>&copy; 2025</span>
+  </footer>
+
+  <!-- Modal -->
+  <div
+    class="modal"
+    ng-if="$ctrl.showAdd"
+    ng-click="$ctrl.onOverlay($event)"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="addTaskTitle"
+  >
+    <div class="modal-body card">
+      <button
+        type="button"
+        class="icon-btn close-btn"
+        aria-label="Close"
+        ng-click="$ctrl.closeAdd()"
+      >
+        &times;
+      </button>
+      <h3 id="addTaskTitle">Add Task</h3>
+      <form
+        ng-submit="$ctrl.create()"
+        ng-keydown="$ctrl.handleModalKey($event)"
+      >
+        <input
+          id="newTaskTitle"
+          class="input"
+          type="text"
+          ng-model="$ctrl.newTitle"
+          placeholder="Task title"
+        />
+        <div class="modal-actions">
+          <button
+            type="submit"
+            class="btn primary"
+            ng-disabled="!$ctrl.newTitle.trim() || $ctrl.creating"
+          >
+            <span ng-if="!$ctrl.creating">Create</span>
+            <span ng-if="$ctrl.creating">Saving...</span>
+          </button>
+          <button type="button" class="btn ghost" ng-click="$ctrl.closeAdd()">
+            Cancel
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

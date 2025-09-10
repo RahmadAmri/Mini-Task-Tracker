@@ -3,16 +3,24 @@
 
   angular.module("app").component("home", {
     templateUrl: "app/components/home/home.template.html",
-    controller: function (apiService) {
+    controller: function (apiService, $window, $timeout) {
       const vm = this;
       vm.loading = false;
       vm.tasks = [];
       vm.showAdd = false;
       vm.newTitle = "";
       vm.error = null;
+      vm.theme = localStorage.getItem("theme") || "light";
 
       vm.$onInit = function () {
+        document.documentElement.setAttribute("data-theme", vm.theme);
         vm.fetch();
+      };
+
+      vm.toggleTheme = function () {
+        vm.theme = vm.theme === "light" ? "dark" : "light";
+        localStorage.setItem("theme", vm.theme);
+        document.documentElement.setAttribute("data-theme", vm.theme);
       };
 
       vm.fetch = function () {
@@ -49,6 +57,16 @@
         vm.newTitle = "";
         vm.showAdd = true;
         vm.error = null;
+        $timeout(() => {
+          const el = document.querySelector(".modal-body .input");
+          el && el.focus();
+        });
+      };
+
+      vm.closeAdd = function () {
+        vm.showAdd = false;
+        vm.newTitle = "";
+        vm.creating = false;
       };
 
       vm.create = function () {
