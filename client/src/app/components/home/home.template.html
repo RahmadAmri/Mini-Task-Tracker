@@ -1,0 +1,50 @@
+<div class="container">
+  <h1>Tasks</h1>
+
+  <div class="toolbar">
+    <button ng-click="$ctrl.openAdd()">Add Task</button>
+    <span ng-if="$ctrl.loading">Loading...</span>
+    <span class="error" ng-if="$ctrl.error">{{$ctrl.error}}</span>
+  </div>
+
+  <table class="task-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Completed</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="t in $ctrl.tasks track by t.id">
+        <td>{{t.id}}</td>
+        <td ng-class="{'done': t.completed}">{{t.title}}</td>
+        <td>
+          <input
+            type="checkbox"
+            ng-checked="t.completed"
+            ng-click="$ctrl.toggle(t)"
+          />
+        </td>
+        <td>
+          <button ng-click="$ctrl.delete(t)">Delete</button>
+        </td>
+      </tr>
+      <tr ng-if="!$ctrl.loading && !$ctrl.tasks.length">
+        <td colspan="4">No tasks</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="modal" ng-if="$ctrl.showAdd">
+    <div class="modal-body">
+      <h3>New Task</h3>
+      <input type="text" ng-model="$ctrl.newTitle" placeholder="Title" />
+      <div class="actions">
+        <button ng-click="$ctrl.create()">Create</button>
+        <button ng-click="$ctrl.showAdd=false">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,99 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 24px;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+h1,
+h2,
+h3 {
+  color: #333;
+}
+
+.container {
+  width: 80%;
+  margin: auto;
+  overflow: hidden;
+}
+
+.header {
+  background: #35424a;
+  color: #ffffff;
+  padding: 10px 0;
+  text-align: center;
+}
+
+.footer {
+  background: #35424a;
+  color: #ffffff;
+  text-align: center;
+  padding: 10px 0;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+.button {
+  display: inline-block;
+  font-size: 16px;
+  color: #ffffff;
+  background: #e8491d;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.button:hover {
+  background: #333;
+}
+
+.task-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.task-table th,
+.task-table td {
+  border: 1px solid #ccc;
+  padding: 6px 8px;
+}
+
+.done {
+  text-decoration: line-through;
+  color: #777;
+}
+
+.toolbar {
+  margin-bottom: 12px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.error {
+  color: #c00;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-body {
+  background: #fff;
+  padding: 20px;
+  border-radius: 6px;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.actions button {
+  margin-right: 8px;
+}
